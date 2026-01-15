@@ -79,7 +79,7 @@ http://localhost:3000
 
 ```
 Saite/
-├── public/              # Frontend файли
+├── docs/                # Frontend файли
 │   ├── index.html       # Головна сторінка
 │   ├── profile.html     # Сторінка профілю
 │   ├── css/

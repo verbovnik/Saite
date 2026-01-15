@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static('docs'));
 app.use('/uploads', express.static('uploads'));
 
 // Session
@@ -577,6 +577,6 @@ app.delete('/api/users/music', requireAuth, (req, res) => {
 // Запуск сервера
 app.listen(PORT, () => {
     console.log(`🎙️  Voice Network сервер запущено на http://localhost:${PORT}`);
-    console.log(`📁 Статичні файли: ./public`);
+    console.log(`📁 Статичні файли: ./docs`);
     console.log(`📤 Завантаження: ./uploads`);
 });

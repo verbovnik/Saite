@@ -63,7 +63,7 @@ PORT=8080 npm start
 
 ```
 📦 Voice Network
-├── 🎨 public/          Frontend (HTML/CSS/JS)
+├── 🎨 docs/            Frontend (HTML/CSS/JS)
 ├── 🎙️ uploads/         Аудіо файли
 ├── ⚙️ server.js        Backend API
 └── 📦 package.json     Залежності
