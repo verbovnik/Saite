@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профіль — Voice Network</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1 class="logo">🎙️ VOICE</h1>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Стрічка</a>
+                <a href="/profile.html" class="nav-link active">Профіль</a>
+                <button class="btn-secondary" id="logoutBtn">Вийти</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="profile-container">
+            <!-- Заголовок профілю -->
+            <div class="profile-header">
+                <div class="profile-name-section">
+                    <h1 id="profileUsername">Завантаження...</h1>
+                    <button class="btn-secondary btn-small" id="editProfileBtn">Редагувати</button>
+                </div>
+
+                <!-- Статистика -->
+                <div class="profile-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="listenersCount">0</div>
+                        <div class="stat-label">Слухачів</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="playsCount">0</div>
+                        <div class="stat-label">Прослуховувань</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="commentsCount">0</div>
+                        <div class="stat-label">Коментарів</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="thumbsDownCount">0</div>
+                        <div class="stat-label">👎</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Голосове біо -->
+            <div class="voice-bio-section">
+                <h3>Голосове біо</h3>
+                <div id="bioContainer">
+                    <div id="bioPlayer" style="display: none;">
+                        <audio id="bioAudio" controls></audio>
+                    </div>
+                    <div id="bioRecorder" style="display: none;">
+                        <button class="btn-record" id="recordBioBtn">
+                            <span class="record-icon">⏺</span>
+                            <span id="recordBioText">Записати біо</span>
+                        </button>
+                        <div class="timer" id="bioTimer">00:00</div>
+                        <div id="bioPreview" style="display: none;">
+                            <audio id="bioPreviewAudio" controls></audio>
+                            <div class="preview-actions">
+                                <button class="btn-primary" id="saveBioBtn">Зберегти</button>
+                                <button class="btn-secondary" id="cancelBioBtn">Скасувати</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-secondary" id="addBioBtn">Додати голосове біо</button>
+                </div>
+            </div>
+
+            <!-- Фонова музика -->
+            <div class="profile-music-section">
+                <h3>Фонова музика профілю</h3>
+                <div id="musicContainer">
+                    <div id="musicPlayer" style="display: none;">
+                        <audio id="profileMusic" controls loop></audio>
+                        <button class="btn-secondary btn-small" id="removeMusicBtn">Видалити</button>
+                    </div>
+                    <div id="musicUploader">
+                        <input type="file" id="musicInput" accept="audio/*" style="display: none;">
+                        <button class="btn-secondary" id="uploadMusicBtn">Завантажити музику</button>
+                        <p class="hint">MP3, WAV, OGG</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Пости користувача -->
+            <div class="profile-posts">
+                <h3>Мої пости</h3>
+                <div class="posts-container" id="userPosts">
+                    <!-- Пости будуть додаватися динамічно -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальне вікно редагування профілю -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>Редагувати профіль</h2>
+            <form id="editForm">
+                <input type="text" id="editUsername" placeholder="Новий нікнейм">
+                <button type="submit" class="btn-primary">Зберегти</button>
+                <button type="button" class="btn-secondary" id="cancelEditBtn">Скасувати</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/profile.js"></script>
+</body>
+</html>
