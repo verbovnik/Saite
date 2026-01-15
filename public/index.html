@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Network — Слухай. Говори. Резонуй.</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1 class="logo">🎙️ VOICE</h1>
+            <div class="nav-links">
+                <a href="/" class="nav-link active">Стрічка</a>
+                <a href="/profile.html" class="nav-link" id="profileLink">Профіль</a>
+                <button class="btn-secondary" id="logoutBtn">Вийти</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Модальне вікно авторизації -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <h2>Увійти / Зареєструватися</h2>
+            <p class="modal-subtitle">18+ платформа голосового резонансу</p>
+
+            <form id="authForm">
+                <input type="text" id="username" placeholder="Нікнейм" required>
+                <input type="password" id="password" placeholder="Пароль" required>
+
+                <div class="age-confirm">
+                    <label>
+                        <input type="checkbox" id="ageConfirm" required>
+                        Підтверджую, що мені виповнилось 18 років
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-primary" id="loginBtn">Увійти</button>
+                <button type="button" class="btn-secondary" id="registerBtn">Зареєструватися</button>
+            </form>
+        </div>
+    </div>
+
+    <main class="container">
+        <!-- Секція створення поста -->
+        <div class="create-post-section" id="createPostSection">
+            <h2>Створити голосовий пост</h2>
+            <p class="hint">Запис 30-60 секунд. Говори про що хочеш.</p>
+
+            <div class="recorder">
+                <button class="btn-record" id="recordBtn">
+                    <span class="record-icon">⏺</span>
+                    <span id="recordText">Почати запис</span>
+                </button>
+                <div class="timer" id="timer">00:00</div>
+            </div>
+
+            <div id="audioPreview" class="audio-preview" style="display: none;">
+                <audio id="audioPlayer" controls></audio>
+                <div class="preview-actions">
+                    <button class="btn-primary" id="publishBtn">Опублікувати</button>
+                    <button class="btn-secondary" id="discardBtn">Скасувати</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Стрічка постів -->
+        <div class="feed" id="feed">
+            <h2>Стрічка резонансу</h2>
+            <div class="posts-container" id="postsContainer">
+                <!-- Пости будуть додаватися динамічно -->
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
