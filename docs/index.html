@@ -44,8 +44,8 @@
     <main class="container">
         <!-- Секція створення поста -->
         <div class="create-post-section" id="createPostSection">
-            <h2>Створити голосовий пост</h2>
-            <p class="hint">Запис 30-60 секунд. Говори про що хочеш.</p>
+            <h2>🎙️ Створити голосовий пост</h2>
+            <p class="hint">✨ Запис 30-60 секунд. Говори про що хочеш.</p>
 
             <div class="recorder">
                 <button class="btn-record" id="recordBtn">
@@ -54,6 +54,9 @@
                 </button>
                 <div class="timer" id="timer">00:00</div>
             </div>
+
+            <!-- Візуалізація звукових хвиль -->
+            <canvas id="waveformCanvas" style="display: none;"></canvas>
 
             <div id="audioPreview" class="audio-preview" style="display: none;">
                 <audio id="audioPlayer" controls></audio>
@@ -66,7 +69,7 @@
 
         <!-- Стрічка постів -->
         <div class="feed" id="feed">
-            <h2>Стрічка резонансу</h2>
+            <h2>🎵 Стрічка резонансу</h2>
             <div class="posts-container" id="postsContainer">
                 <!-- Пости будуть додаватися динамічно -->
             </div>
