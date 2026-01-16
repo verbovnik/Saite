@@ -4,6 +4,9 @@ let audioChunks = [];
 let recordingInterval;
 let recordingStartTime;
 let currentUser = null;
+let audioContext;
+let analyser;
+let animationId;
 
 // API базова URL
 const API_URL = '';
@@ -169,6 +172,9 @@ async function startRecording() {
 
             // Зберегти blob для відправки
             audioPlayer.audioBlob = audioBlob;
+
+            // Зупинити візуалізацію
+            stopVisualization();
         };
 
         mediaRecorder.start();
@@ -176,6 +182,9 @@ async function startRecording() {
 
         recordBtn.classList.add('recording');
         recordText.textContent = 'Зупинити запис';
+
+        // Почати візуалізацію звукових хвиль
+        startVisualization(stream);
 
         // Таймер
         recordingInterval = setInterval(() => {
@@ -618,5 +627,110 @@ async function toggleThumbsDown(commentId, postId) {
     } catch (error) {
         console.error('Помилка:', error);
         alert('Помилка підключення до сервера');
+    }
+}
+
+// Візуалізація звукових хвиль
+function startVisualization(stream) {
+    const canvas = document.getElementById('waveformCanvas');
+    if (!canvas) return;
+
+    canvas.style.display = 'block';
+    const canvasCtx = canvas.getContext('2d');
+
+    // Налаштування розміру canvas
+    canvas.width = canvas.offsetWidth;
+    canvas.height = 100;
+
+    // Створити Audio Context
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    const source = audioContext.createMediaStreamSource(stream);
+
+    source.connect(analyser);
+    analyser.fftSize = 2048;
+
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    // Градієнтні кольори
+    const gradient = canvasCtx.createLinearGradient(0, 0, canvas.width, 0);
+    gradient.addColorStop(0, '#667eea');
+    gradient.addColorStop(0.25, '#764ba2');
+    gradient.addColorStop(0.5, '#f093fb');
+    gradient.addColorStop(0.75, '#f5576c');
+    gradient.addColorStop(1, '#667eea');
+
+    function draw() {
+        animationId = requestAnimationFrame(draw);
+
+        analyser.getByteTimeDomainData(dataArray);
+
+        // Очистити canvas з градієнтом
+        canvasCtx.fillStyle = 'rgba(10, 10, 10, 0.3)';
+        canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Намалювати хвилю
+        canvasCtx.lineWidth = 3;
+        canvasCtx.strokeStyle = gradient;
+        canvasCtx.shadowBlur = 15;
+        canvasCtx.shadowColor = '#667eea';
+
+        canvasCtx.beginPath();
+
+        const sliceWidth = canvas.width / bufferLength;
+        let x = 0;
+
+        for (let i = 0; i < bufferLength; i++) {
+            const v = dataArray[i] / 128.0;
+            const y = (v * canvas.height) / 2;
+
+            if (i === 0) {
+                canvasCtx.moveTo(x, y);
+            } else {
+                canvasCtx.lineTo(x, y);
+            }
+
+            x += sliceWidth;
+        }
+
+        canvasCtx.lineTo(canvas.width, canvas.height / 2);
+        canvasCtx.stroke();
+
+        // Додати частотні бари
+        analyser.getByteFrequencyData(dataArray);
+        const barWidth = (canvas.width / bufferLength) * 2.5;
+        let barHeight;
+        let barX = 0;
+
+        for (let i = 0; i < bufferLength / 2; i += 4) {
+            barHeight = (dataArray[i] / 255) * canvas.height * 0.8;
+
+            const hue = (i / bufferLength) * 360;
+            canvasCtx.fillStyle = `hsla(${hue + 200}, 80%, 60%, 0.3)`;
+
+            canvasCtx.fillRect(barX, canvas.height - barHeight, barWidth, barHeight);
+
+            barX += barWidth + 1;
+        }
+    }
+
+    draw();
+}
+
+function stopVisualization() {
+    const canvas = document.getElementById('waveformCanvas');
+    if (canvas) {
+        canvas.style.display = 'none';
+    }
+
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+    }
+
+    if (audioContext) {
+        audioContext.close();
+        audioContext = null;
     }
 }
